@@ -370,6 +370,11 @@ impl<S: Read + Write> Client<S> {
     // TODO: list type [filtertype] [filterwhat] [...] [group] [grouptype] [...]
     // TODO: searchaddpl name type what [...], readcomments
 
+    /// List all songs in the DB
+    pub fn listall(&mut self) -> Result<Vec<Song>> {
+        self.run_command("listall", ()).and_then(|_| self.read_structs("file"))
+    }
+
     /// Find songs matching Query conditions.
     pub fn find<W>(&mut self, query: &Query, window: W) -> Result<Vec<Song>>
         where W: Into<Window>
